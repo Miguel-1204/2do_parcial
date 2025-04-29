@@ -1,0 +1,30 @@
+<table>
+    <thead>
+        <tr>
+            <th>Placa</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th>Ubicación</th>
+            <th>Tipo</th>
+            <th sec:authorize="hasRole('ADMINISTRADOR')">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="vehiculo : ${vehiculos}">
+            <td th:text="${vehiculo.placa}"></td>
+            <td th:text="${vehiculo.horaEntrada}"></td>
+            <td th:text="${vehiculo.horaSalida} ?: 'En parqueadero'"></td>
+            <td th:text="${vehiculo.ubicacion}"></td>
+            <td th:text="${vehiculo.tipoVehiculo.nombre}"></td>
+            <td sec:authorize="hasRole('ADMINISTRADOR')">
+                <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.id})}">Editar</a>
+                <a th:href="@{/vehiculos/eliminar/{id}(id=${vehiculo.id})}">Eliminar</a>
+                <a th:if="${vehiculo.horaSalida == null}" 
+                   th:href="@{/vehiculos/registrar-salida/{id}(id=${vehiculo.id})}">Registrar Salida</a>
+            </td>
+            <td sec:authorize="hasRole('ACOMODADOR')">
+                <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.id})}">Cambiar Ubicación</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
